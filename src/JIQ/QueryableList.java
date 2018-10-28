@@ -2,12 +2,10 @@ package JIQ;
 
 import JIQ.exceptions.NoElementException;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.function.*;
 
-public class QueryableList<T> implements Iterable<T>{
+public class QueryableList<T> implements List<T> {
 
     private List<T> list;
 
@@ -27,14 +25,91 @@ public class QueryableList<T> implements Iterable<T>{
         return this.list.add(item);
     }
 
+    @Override
+    public boolean remove(Object o) {
+        return this.list.remove(o);
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        return this.containsAll(c);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends T> c) {
+        return this.list.addAll(c);
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends T> c) {
+        return this.list.addAll(index, c);
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        return this.list.removeAll(c);
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        return this.list.retainAll(c);
+    }
+
     public T get(int index) {
         return this.list.get(index);
     }
 
-    public boolean remove(T item) {
-        return this.list.remove(item);
+    @Override
+    public T set(int index, T element) {
+        return this.list.set(index, element);
     }
 
+    @Override
+    public void add(int index, T element) {
+        this.list.add(index, element);
+    }
+
+    @Override
+    public T remove(int index) {
+        return this.list.remove(index);
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        return this.list.indexOf(o);
+    }
+
+    @Override
+    public int lastIndexOf(Object o) {
+        return 0;
+    }
+
+    @Override
+    public ListIterator<T> listIterator() {
+        return this.list.listIterator();
+    }
+
+    @Override
+    public ListIterator<T> listIterator(int index) {
+        return this.list.listIterator(index);
+    }
+
+    @Override
+    public List<T> subList(int fromIndex, int toIndex) {
+        return this.list.subList(fromIndex, toIndex);
+    }
+
+
+    public T reduce(BiFunction<T, T, T> func){
+        Iterator<T> iterator = this.iterator();
+        T source = iterator.next(); //enumerator.Current;
+        T current = null;
+        while ((current = iterator.next()) != null) {
+            source = func.apply(source, current);
+        }
+
+        return source;
+    }
 
     /**
      * Removes the first element that matches condition
@@ -68,7 +143,6 @@ public class QueryableList<T> implements Iterable<T>{
         return removed;
     }
 
-
     public boolean exists(Predicate<T> predicate){
         for(T item : this.list){
             if(predicate.test(item)){
@@ -78,10 +152,8 @@ public class QueryableList<T> implements Iterable<T>{
         return false;
     }
 
-    public int clear() {
-        int count = this.count();
+    public void clear() {
         this.list.clear();
-        return count;
     }
 
     public T find(Predicate<T> predicate) throws NoElementException {
@@ -124,10 +196,6 @@ public class QueryableList<T> implements Iterable<T>{
         return result;
     }
 
-    public T reduce(BiFunction<T, T, T> red) throws NoElementException {
-        return this.first();
-    }
-
     public T first() throws NoElementException {
         if(!isEmpty()) {
             return this.list.get(0);
@@ -146,8 +214,18 @@ public class QueryableList<T> implements Iterable<T>{
         }
     }
 
+    @Override
+    public int size() {
+        return this.count();
+    }
+
     public boolean isEmpty(){
         return this.list.size() == 0;
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        return false;
     }
 
     public <R extends Comparable<R>> T min(Function<T, R> func) throws NoElementException {
@@ -200,6 +278,11 @@ public class QueryableList<T> implements Iterable<T>{
         return this;
     }
 
+    public <TKey> List<Group<TKey, T>> groupBy(Function<T, TKey> func){
+        return Group.of(this, func);
+    }
+
+
     public void forEach(BiConsumer<T, Integer> it){
         for(int i = 0; i < this.count(); i++){
             it.accept(this.list.get(i), i);
@@ -209,5 +292,15 @@ public class QueryableList<T> implements Iterable<T>{
     @Override
     public Iterator<T> iterator() {
         return this.list.iterator();
+    }
+
+    @Override
+    public Object[] toArray() {
+        return this.list.toArray();
+    }
+
+    @Override
+    public <T1> T1[] toArray(T1[] a) {
+        return this.list.toArray(a);
     }
 }

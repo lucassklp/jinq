@@ -2,6 +2,7 @@ package JIQ;
 
 import JIQ.exceptions.NoElementException;
 
+import java.util.List;
 import java.util.function.Function;
 
 public class Group<TKey, TElement> {
@@ -29,7 +30,7 @@ public class Group<TKey, TElement> {
         this.elements.add(elem);
     }
 
-    public static <TKey, TElem> QueryableList<Group<TKey, TElem>> of(QueryableList<TElem> elems, Function<TElem, TKey> fn){
+    public static <TKey, TElem> List<Group<TKey, TElem>> of(List<TElem> elems, Function<TElem, TKey> fn){
         QueryableList<Group<TKey, TElem>> groups = new QueryableList<>();
 
         for(TElem item : elems){
@@ -43,7 +44,6 @@ public class Group<TKey, TElement> {
                 groups.add(group);
             }
             group.add(item);
-
         }
 
         return groups;

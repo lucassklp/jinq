@@ -3,6 +3,8 @@ import JIQ.QueryableList;
 import JIQ.User;
 import JIQ.exceptions.NoElementException;
 
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) throws NoElementException {
@@ -18,6 +20,9 @@ public class Main {
 
         //Do the Map operation over user list
         QueryableList<Integer> map = users.map(x -> x.getAge());
+
+        //Reduce method to sum age
+        map.reduce((x, y) -> x + y);
 
         //Find the first element that matches with predicate
         User ageTen = users.find(x -> x.getAge() == 10);
@@ -38,7 +43,7 @@ public class Main {
         QueryableList<User> sortedUsersDesc = users.orderByDescreasing(x -> x.getAge(), x -> x.getEmail(), x -> x.getWeight());
 
         //Group the list by age
-        QueryableList<Group<Integer, User>> ageGroup = Group.of(users, it -> it.getAge());
+        List<Group<Integer, User>> ageGroup = users.groupBy(x -> x.getAge());
 
         //Get the max value from List
         User older = users.max(x -> x.getAge());
