@@ -6,9 +6,14 @@
  * User Manual available at https://docs.gradle.org/5.2/userguide/java_library_plugin.html
  */
 
+group = "com.github.lucassklp.jinq"
+version = "0.1.0"
+
 plugins {
     // Apply the java-library plugin to add support for Java Library
+    id("com.gradle.plugin-publish") version "0.10.1"
     `java-library`
+    `java-gradle-plugin`
 }
 
 repositories {
@@ -26,4 +31,32 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation("junit:junit:4.12")
+}
+
+gradlePlugin {
+    plugins {
+        create("jinq") {
+            id = "com.github.lucassklp.jinq"
+            implementationClass = "com.github.lucassklp.jinq.QueryableList"
+        }
+    }
+}
+
+pluginBundle {
+    // These settings are set for the whole plugin bundle
+    website = "https://github.com/lucassklp/jinq"
+    vcsUrl = "https://github.com/lucassklp/jinq"
+
+    description = "jinq - Java Integrated Query -  LINQ implementation for Java Developers!"
+
+    (plugins) {
+
+        // first plugin
+        "jinq" {
+            // id is captured from java-gradle-plugin configuration
+            displayName = "Gradle Greeting plugin"
+            tags = listOf("individual", "tags", "per", "plugin")
+            version = "0.1"
+        }
+    }
 }
