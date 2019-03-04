@@ -1,4 +1,4 @@
-package JIQ;
+package com.github.lucassklp.jinq;
 
 public class User{
     private int age;

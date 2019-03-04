@@ -1,4 +1,4 @@
-package JIQ.abstractions;
+package com.github.lucassklp.jinq.abstractions;
 
 import java.util.function.Function;
 import java.util.function.Predicate;

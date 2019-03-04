@@ -1,6 +1,6 @@
-package JIQ;
+package com.github.lucassklp.jinq;
 
-import JIQ.exceptions.NoElementException;
+import com.github.lucassklp.jinq.exceptions.NoElementException;
 
 import java.util.List;
 import java.util.function.Function;
