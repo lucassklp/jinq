@@ -11,7 +11,7 @@ public class Group<TKey, TElement> {
 
     public Group(TKey key){
         this.key = key;
-        this.elements = new QueryableList<TElement>();
+        this.elements = new QueryableList<>();
     }
 
     public TKey getKey() {
@@ -30,7 +30,7 @@ public class Group<TKey, TElement> {
         this.elements.add(elem);
     }
 
-    public static <TKey, TElem> QueryableList<Group<TKey, TElem>> of(List<TElem> elems, Function<TElem, TKey> fn){
+    protected static <TKey, TElem> QueryableList<Group<TKey, TElem>> of(List<TElem> elems, Function<TElem, TKey> fn){
         QueryableList<Group<TKey, TElem>> groups = new QueryableList<>();
 
         for(TElem item : elems){

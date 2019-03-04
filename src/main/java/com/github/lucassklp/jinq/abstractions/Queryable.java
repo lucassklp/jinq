@@ -8,7 +8,6 @@ import java.util.function.Predicate;
 
 public interface Queryable<T> extends Iterable<T> {
 
-    boolean add(T item);
     T get(int index) throws NoElementException;
     boolean remove(T item);
     boolean remove(Predicate<T> predicate);

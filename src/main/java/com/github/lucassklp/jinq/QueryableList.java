@@ -18,10 +18,7 @@ public class QueryableList<T> implements Queryable<T>, List<T> {
         this.list = list;
     }
 
-    public static <T> QueryableList of(List<T> list){
-        return new QueryableList(list);
-    }
-
+    @Override
     public boolean add(T item) {
         return this.list.add(item);
     }
@@ -56,6 +53,7 @@ public class QueryableList<T> implements Queryable<T>, List<T> {
         return this.list.retainAll(c);
     }
 
+    @Override
     public T get(int index) {
         return this.list.get(index);
     }
@@ -82,7 +80,7 @@ public class QueryableList<T> implements Queryable<T>, List<T> {
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        return this.list.lastIndexOf(o);
     }
 
     @Override
@@ -100,6 +98,37 @@ public class QueryableList<T> implements Queryable<T>, List<T> {
         return this.list.subList(fromIndex, toIndex);
     }
 
+    @Override
+    public Iterator<T> iterator() {
+        return this.list.iterator();
+    }
+
+    @Override
+    public Object[] toArray() {
+        return this.list.toArray();
+    }
+
+    @Override
+    public <T1> T1[] toArray(T1[] a) {
+        return this.list.toArray(a);
+    }
+
+    @Override
+    public int size() {
+        return this.count();
+    }
+
+    @Override
+    public boolean isEmpty(){
+        return this.list.size() == 0;
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        return this.list.contains(o);
+    }
+
+
 
     public T reduce(BiFunction<T, T, T> func){
         Iterator<T> iterator = this.iterator();
@@ -108,7 +137,6 @@ public class QueryableList<T> implements Queryable<T>, List<T> {
         while ((current = iterator.next()) != null) {
             source = func.apply(source, current);
         }
-
         return source;
     }
 
@@ -144,6 +172,11 @@ public class QueryableList<T> implements Queryable<T>, List<T> {
         return removed;
     }
 
+    /**
+     * Verify if the predicate matches with any element of the list
+     * @param predicate
+     * @return a boolean that indicates if the predicate match with any element of list.
+     */
     public boolean exists(Predicate<T> predicate){
         for(T item : this.list){
             if(predicate.test(item)){
@@ -215,20 +248,6 @@ public class QueryableList<T> implements Queryable<T>, List<T> {
         }
     }
 
-    @Override
-    public int size() {
-        return this.count();
-    }
-
-    public boolean isEmpty(){
-        return this.list.size() == 0;
-    }
-
-    @Override
-    public boolean contains(Object o) {
-        return this.list.contains(o);
-    }
-
     public <R extends Comparable<R>> T min(Function<T, R> func) throws NoElementException {
         if(!isEmpty()){
             T minor = this.first();
@@ -273,25 +292,9 @@ public class QueryableList<T> implements Queryable<T>, List<T> {
         return Group.of(this, func);
     }
 
-
     public void forEach(BiConsumer<T, Integer> it){
         for(int i = 0; i < this.count(); i++){
             it.accept(this.list.get(i), i);
         }
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-        return this.list.iterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-        return this.list.toArray();
-    }
-
-    @Override
-    public <T1> T1[] toArray(T1[] a) {
-        return this.list.toArray(a);
     }
 }
