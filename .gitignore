@@ -6,3 +6,6 @@ build
 
 #IntelliJ
 .idea
+
+#Out resources
+out

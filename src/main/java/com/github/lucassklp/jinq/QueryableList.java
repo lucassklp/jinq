@@ -1,11 +1,12 @@
 package com.github.lucassklp.jinq;
 
+import com.github.lucassklp.jinq.abstractions.Queryable;
 import com.github.lucassklp.jinq.exceptions.NoElementException;
 
 import java.util.*;
 import java.util.function.*;
 
-public class QueryableList<T> implements List<T> {
+public class QueryableList<T> implements Queryable<T>, List<T> {
 
     private List<T> list;
 
@@ -225,7 +226,7 @@ public class QueryableList<T> implements List<T> {
 
     @Override
     public boolean contains(Object o) {
-        return false;
+        return this.list.contains(o);
     }
 
     public <R extends Comparable<R>> T min(Function<T, R> func) throws NoElementException {
@@ -268,17 +269,7 @@ public class QueryableList<T> implements List<T> {
         }
     }
 
-    public <X extends Comparable<?>> QueryableList<T> orderBy(Function<T, X>... funcs){
-        
-        return this;
-    }
-
-    public <X extends Comparable<?>> QueryableList<T> orderByDescreasing(Function<T, X>... funcs){
-
-        return this;
-    }
-
-    public <TKey> List<Group<TKey, T>> groupBy(Function<T, TKey> func){
+    public <TKey> QueryableList<Group<TKey, T>> groupBy(Function<T, TKey> func){
         return Group.of(this, func);
     }
 
