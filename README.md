@@ -30,12 +30,6 @@ users.removeAll(x -> x.getAge() == 10);
 //Remove first elements that matches with predicate
 users.remove(x -> x.getEmail().equals("clark@example.com"));
 
-//Order By Ascending Users according values
-QueryableList<User> sortedUsers = users.orderBy(x -> x.getAge(), x -> x.getEmail(), x -> x.getWeight());
-
-//Order By Decreasing Users according values
-QueryableList<User> sortedUsersDesc = users.orderByDescreasing(x -> x.getAge(), x -> x.getEmail(), x -> x.getWeight());
-
 //Group the list by age
 QueryableList<Group<Integer, User>> ageGroup = Group.of(users, it -> it.getAge());
 
