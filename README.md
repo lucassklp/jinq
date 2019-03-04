@@ -1,4 +1,4 @@
-# JIQ - Java Integrated Query - LINQ for Java
+# jinq - Java Integrated Query - LINQ for Java
 
 This library is inspired in [LINQ - Method Syntax (C#)](https://docs.microsoft.com/en-us/dotnet/csharp/linq/write-linq-queries) and helps Java programmers to manipulate list and its elements. 
 
